@@ -1,0 +1,31 @@
+version: '3'
+services:
+  db:
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: mydatabase
+    ports:
+      - '5432:5432'
+    volumes:
+      - db-data:/var/lib/postgresql/data/
+    restart: always
+  # app:
+  #   build: .
+  #   ports:
+  #     - "3000:3000"
+  #   environment:
+  #     PORT: 3000
+  #     DB_USERNAME: postgres
+  #     DB_PASSWORD: password
+  #     DB_DATABASE: mydatabase
+  #     DB_HOST: db
+  #     DB_PORT: 5432
+
+  #     # DB_CLIENT: postgres
+  #     # DB_CONNECTION_STRING: postgres://postgres:postgres@db:5432/myapp
+  #   depends_on:
+  #     - db
+volumes:
+  db-data:
