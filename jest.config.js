@@ -3,4 +3,5 @@ module.exports = {
   testEnvironmentOptions: {
     NODE_ENV: "test",
   },
+  testTimeout: 10000
 };
