@@ -24,29 +24,29 @@ jobs:
       - name: Run tests
         run: npm test
 
-      - name: Build Docker image
-        run: |
-          docker build -t myapp .
-          docker tag myapp gcr.io/<PROJECT_ID>/myapp:latest
+      # - name: Build Docker image
+      #   run: |
+      #     docker build -t myapp .
+      #     docker tag myapp gcr.io/<PROJECT_ID>/myapp:latest
 
-      - name: Configure Google Cloud CLI
-        uses: google-github-actions/setup-gcloud@master
-        with:
-          version: "latest"
-          service_account_email: ${{ secrets.GCP_SA_EMAIL }}
-          service_account_key: ${{ secrets.GCP_SA_KEY }}
-          project_id: ${{ secrets.GCP_PROJECT_ID }}
+      # - name: Configure Google Cloud CLI
+      #   uses: google-github-actions/setup-gcloud@master
+      #   with:
+      #     version: "latest"
+      #     service_account_email: ${{ secrets.GCP_SA_EMAIL }}
+      #     service_account_key: ${{ secrets.GCP_SA_KEY }}
+      #     project_id: ${{ secrets.GCP_PROJECT_ID }}
 
-      - name: Publish Docker image to Container Registry
-        run: |
-          docker push gcr.io/<PROJECT_ID>/myapp:latest
+      # - name: Publish Docker image to Container Registry
+      #   run: |
+      #     docker push gcr.io/<PROJECT_ID>/myapp:latest
 
-      - name: Deploy app to Google Cloud Run
-        uses: google-github-actions/deploy-cloudrun@v1
-        with:
-          image: gcr.io/<PROJECT_ID>/myapp:latest
-          platform: managed
-          project_id: ${{ secrets.GCP_PROJECT_ID }}
-          service_name: myapp
-          region: us-central1
-          service_account_email: ${{ secrets.GCP_SA_EMAIL }}
+      # - name: Deploy app to Google Cloud Run
+      #   uses: google-github-actions/deploy-cloudrun@v1
+      #   with:
+      #     image: gcr.io/<PROJECT_ID>/myapp:latest
+      #     platform: managed
+      #     project_id: ${{ secrets.GCP_PROJECT_ID }}
+      #     service_name: myapp
+      #     region: us-central1
+      #     service_account_email: ${{ secrets.GCP_SA_EMAIL }}
