@@ -15,12 +15,10 @@ describe("Users API", () => {
       for (let i = 0; i < 100; i++) {
         let tempFirstName = faker.name.firstName();
         let tempLastName = faker.name.lastName();
-        let tempBday =
-          // faker.date
-          "2000-04-14";
-        // .between("1950-01-01", "2000-12-31")
-        // .toISOString()
-        // .slice(0, 10);
+        let tempBday = faker.date
+          .between("1950-01-01", "2000-12-31")
+          .toISOString()
+          .slice(0, 10);
         let tempTimezone = faker.address.timeZone();
 
         const res = await request(app).post("/users").send({

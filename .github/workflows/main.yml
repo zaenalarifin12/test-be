@@ -1,4 +1,4 @@
-name: CI/CD with PostgreSQL
+name: CI/CD Test
 
 on:
   push:
@@ -9,63 +9,28 @@ jobs:
     runs-on: ubuntu-latest
 
     services:
-      docker:
-        image: docker:dind
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: mydatabase
         ports:
-          - "2375:2375"
+          - "5432:5432"
 
     steps:
       - uses: actions/checkout@v2
 
-      - name: Install Docker Compose
-        run: |
-          sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-          sudo chmod +x /usr/local/bin/docker-compose
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "18.x"
 
-      - name: Build and Run Docker Compose
-        run: |
-          docker-compose up --build --abort-on-container-exit
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run migrations
+        run: npx knex migrate:latest
 
       - name: Run tests
         run: npm test
-
-      - name: Stop and Remove Docker Compose Containers
-        run: |
-          docker-compose down -v
-
-# name: CI/CD with PostgreSQL
-
-# on:
-#   push:
-#     branches: [master]
-
-# jobs:
-#   build:
-#     runs-on: ubuntu-latest
-
-#     services:
-#       postgres:
-#         image: postgres
-#         env:
-#           POSTGRES_USER: postgres
-#           POSTGRES_PASSWORD: password
-#           POSTGRES_DB: mydatabase
-#         ports:
-#           - '5432:5432'
-
-#     steps:
-#     - uses: actions/checkout@v2
-
-#     - name: Set up Node.js
-#       uses: actions/setup-node@v2
-#       with:
-#         node-version: '18.x'
-
-#     - name: Install dependencies
-#       run: npm install
-
-#     - name: Run migrations
-#       run: npx knex migrate:latest
-
-#     - name: Run tests
-#       run: npm test

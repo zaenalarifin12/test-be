@@ -29,20 +29,12 @@ server.use(morgan("combined", { stream: accessLogStream }));
 
 server.use("/", userRoutes);
 
-// if (process.env.NODE_ENV !== "test") {
-//   // Enable the cronjob
-//   cron.schedule("*/1 * * * * *", sendBirthdayEmails);
-// }
+if (process.env.NODE_ENV !== "test") {
+  // Enable the cronjob AT 9AM
+  cron.schedule("0 9 * * *", sendBirthdayEmails);
+}
 
-// sendBirthdayEmails()
-// cron.schedule("*/10 * * * * *", () => {
-// startWorker();
-// });
-/**
- * run worker every hour
- *
- * if failed don't remove
- */
+startWorker();
 
 server.use((req, res, next) => {
   console.log(`${req.method} ${req.url}`);
