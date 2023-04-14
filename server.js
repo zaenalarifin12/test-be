@@ -10,8 +10,10 @@ const { sendBirthdayEmails } = require("./schedule/sendBirthdayEmail");
 const fs = require("fs");
 const path = require("path");
 const { startWorker } = require("./queue/worker");
-const accessLogStream = fs.createWriteStream(path.join(__dirname, "access.log"), { flags: "a" });
-
+const accessLogStream = fs.createWriteStream(
+  path.join(__dirname, "access.log"),
+  { flags: "a" }
+);
 
 dotenv.config();
 process.env.TZ = "UTC";
@@ -30,15 +32,17 @@ server.use("/", userRoutes);
 // if (process.env.NODE_ENV !== "test") {
 //   // Enable the cronjob
 //   cron.schedule("*/1 * * * * *", sendBirthdayEmails);
-  // startWorker()
 // }
 
+// sendBirthdayEmails()
+// cron.schedule("*/10 * * * * *", () => {
+// startWorker();
+// });
 /**
  * run worker every hour
- * 
+ *
  * if failed don't remove
  */
-
 
 server.use((req, res, next) => {
   console.log(`${req.method} ${req.url}`);

@@ -10,8 +10,8 @@ const knex = require("knex")({
     port: process.env.DB_PORT,
   },
   pool: {
-    min: 2,
-    max: 10,
+    min: 5,
+    max: 100,
   },
 });
 

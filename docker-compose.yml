@@ -1,5 +1,10 @@
 version: '3'
 services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
   db:
     image: postgres
     environment:
@@ -11,26 +16,23 @@ services:
     volumes:
       - db-data:/var/lib/postgresql/data/
     restart: always
-  rabbitmq: 
-    image: rabbitmq:management-alpine
+  app:
+    build: .
     ports:
-      - "5672:5672"
-      - "15672:15672"
-  # app:
-  #   build: .
-  #   ports:
-  #     - "3000:3000"
-  #   environment:
-  #     PORT: 3000
-  #     DB_USERNAME: postgres
-  #     DB_PASSWORD: password
-  #     DB_DATABASE: mydatabase
-  #     DB_HOST: db
-  #     DB_PORT: 5432
+      - "3000:3000"
+    environment:
+      PORT: 3000
+      DB_USERNAME: postgres
+      DB_PASSWORD: password
+      DB_DATABASE: mydatabase
+      DB_HOST: db
+      DB_PORT: 5432
+      RABBITMQ_URL: amqp://rabbitmq
+    depends_on:
+      - db
+    restart: always
 
-  #     # DB_CLIENT: postgres
-  #     # DB_CONNECTION_STRING: postgres://postgres:postgres@db:5432/myapp
-  #   depends_on:
-  #     - db
 volumes:
   db-data:
+
+    # docker run -d --name rabbitmq -p 15672:15672 -p 5672:5672 rabbitmq:management
