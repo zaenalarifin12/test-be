@@ -1,37 +1,26 @@
 const request = require("supertest");
-const app = require("../app");
-const moment = require("moment-timezone");
+const app = require("../server");
 const { knex } = require("../db/ConnectKnex");
 const { faker } = require("@faker-js/faker");
-const cron = require("node-cron");
-const dotenv = require("dotenv");
 
-const path = require("path");
 const { formatDateInTimezone } = require("../utils/time");
 
 describe("Users API", () => {
-  beforeAll(() => {
-    // await knex.migrate.latest({
-    //   directory: path.win32.normalize(path.join(__dirname, "../db/migrations")),
-    // });
-  });
-
-  afterAll(() => {
-    // await knex.destroy();
+  afterAll(async () => {
+    await knex.destroy();
   });
 
   describe("POST /users", () => {
     test("should create a new user", async () => {
       for (let i = 0; i < 100; i++) {
-        // const element = array[i];
         let tempFirstName = faker.name.firstName();
         let tempLastName = faker.name.lastName();
-        let tempBday = 
-        // faker.date
-          "2000-04-14"
-          // .between("1950-01-01", "2000-12-31")
-          // .toISOString()
-          // .slice(0, 10);
+        let tempBday =
+          // faker.date
+          "2000-04-14";
+        // .between("1950-01-01", "2000-12-31")
+        // .toISOString()
+        // .slice(0, 10);
         let tempTimezone = faker.address.timeZone();
 
         const res = await request(app).post("/users").send({
