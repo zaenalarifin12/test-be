@@ -11,6 +11,11 @@ services:
     volumes:
       - db-data:/var/lib/postgresql/data/
     restart: always
+  rabbitmq: 
+    image: rabbitmq:management-alpine
+    ports:
+      - "5672:5672"
+      - "15672:15672"
   # app:
   #   build: .
   #   ports:
