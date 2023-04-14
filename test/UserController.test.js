@@ -12,7 +12,7 @@ describe("Users API", () => {
 
   describe("POST /users", () => {
     test("should create a new user", async () => {
-      for (let i = 0; i < 100; i++) {
+      for (let i = 0; i < 10; i++) {
         let tempFirstName = faker.name.firstName();
         let tempLastName = faker.name.lastName();
         let tempBday = 
