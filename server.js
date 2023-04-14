@@ -29,10 +29,14 @@ server.use(morgan("combined", { stream: accessLogStream }));
 
 server.use("/", userRoutes);
 
-if (process.env.NODE_ENV !== "test") {
-  // Enable the cronjob AT 9AM
-  cron.schedule("0 9 * * *", sendBirthdayEmails);
-}
+// if (process.env.NODE_ENV !== "test") {
+//   // Enable the cronjob AT 9AM
+// */5 * * * *
+// 0 9 * * *
+// cron.schedule("*/15 * * * *", sendBirthdayEmails);
+// }
+
+// sendBirthdayEmails()
 
 startWorker();
 

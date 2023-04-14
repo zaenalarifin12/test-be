@@ -1,7 +1,7 @@
 const { knex } = require("./../db/ConnectKnex");
 const axios = require("axios");
 const moment = require("moment-timezone");
-const { insertQueue } = require("../queue/worker");
+const { insertQueue, startWorker } = require("../queue/worker");
 
 async function sendBirthdayEmails() {
   knex("users")
@@ -32,7 +32,7 @@ async function sendBirthdayEmails() {
             );
             // Send email to RabbitMQ for processing by a worker
             await insertQueue(user);
-            //   console.log(`Sent email to RabbitMQ for processing`);
+            console.log(`Sent email to RabbitMQ for processing`);
           }
         }
       });

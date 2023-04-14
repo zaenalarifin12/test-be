@@ -11,7 +11,7 @@ const knex = require("knex")({
   },
   pool: {
     min: 5,
-    max: 100,
+    max: 99,
   },
 });
 
